@@ -1,0 +1,18 @@
+# CredPilot deploys as one free Render web service.
+# FastAPI serves both /api/* and the built Vite frontend, so no cross-origin
+# configuration or second static site is needed.
+services:
+  - type: web
+    name: credpilot
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      # Set this in the Render dashboard. It is never stored in the blueprint.
+      - key: HF_TOKEN
+        sync: false
+      - key: GEMMA_MODEL
+        value: google/gemma-4-26B-A4B-it:cheapest
+      - key: AI_REQUESTS_PER_MINUTE
+        value: "10"
